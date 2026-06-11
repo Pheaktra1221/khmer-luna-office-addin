@@ -101,25 +101,59 @@
       
       <div style="margin: 30px 0;">
         <a href="https://khmer-luna-office-addin.onrender.com/taskpane/taskpane.html" class="btn demo-btn" target="_blank">សាកល្បងប្រើ (Web Demo)</a>
-        <a href="https://raw.githubusercontent.com/Pheaktra1221/khmer-luna-office-addin/main/scripts/install-direct-registry.ps1" class="btn" download>ទាញយក Installer</a>
-        <a href="https://github.com/Pheaktra1221/khmer-luna-office-addin" class="btn btn-secondary" target="_blank">GitHub</a>
+      </div>
+      
+      <div style="margin: 20px 0; padding: 20px; background: #f3f4f6; border-radius: 12px;">
+        <h3 style="margin-bottom: 15px; color: #1f2937;">ទាញយក Installer:</h3>
+        <a href="https://raw.githubusercontent.com/Pheaktra1221/khmer-luna-office-addin/main/scripts/install-windows.bat" class="btn" download>
+          🪟 Windows (.bat)
+        </a>
+        <a href="https://raw.githubusercontent.com/Pheaktra1221/khmer-luna-office-addin/main/scripts/install-direct-registry.ps1" class="btn" download>
+          🪟 Windows (.ps1)
+        </a>
+        <a href="https://raw.githubusercontent.com/Pheaktra1221/khmer-luna-office-addin/main/scripts/install-mac.sh" class="btn" download>
+          🍎 Mac (.sh)
+        </a>
+      </div>
+      
+      <div style="margin: 20px 0;">
+        <a href="https://github.com/Pheaktra1221/khmer-luna-office-addin" class="btn btn-secondary" target="_blank">GitHub Repository</a>
       </div>
 
       <div class="section">
         <h2>📦 របៀបដំឡើង (Installation)</h2>
+        
+        <h3 style="margin: 15px 0 10px; font-size: 1.1rem;">Windows</h3>
+        <div class="steps">
+          <p><strong>Option 1: Batch File (ងាយស្រួល)</strong></p>
+          <ol>
+            <li>ទាញយក <code>install-windows.bat</code></li>
+            <li>Right-click → <strong>Run as administrator</strong></li>
+            <li>រង់ចាំដំណើរការបញ្ចប់</li>
+            <li>បិតនិងបើក Office ឡើងវិញ</li>
+          </ol>
+          <p style="margin-top: 10px;"><strong>Option 2: PowerShell</strong></p>
+          <ol>
+            <li>ទាញយក <code>install-direct-registry.ps1</code></li>
+            <li>Right-click → <strong>Run with PowerShell</strong></li>
+            <li>បិតនិងបើក Office ឡើងវិញ</li>
+          </ol>
+        </div>
+
+        <h3 style="margin: 20px 0 10px; font-size: 1.1rem;">Mac</h3>
         <div class="steps">
           <ol>
-            <li>ចុចប៊ូតុង <strong>"ទាញយក Installer"</strong> ខាងលើ</li>
-            <li>រកឯកសារ <code>install-direct-registry.ps1</code> ដែលទាញយក</li>
-            <li>Right-click → <strong>Run with PowerShell</strong></li>
-            <li>បិត Microsoft Office ទាំងស្រុង (Word, Excel, PowerPoint)</li>
-            <li>បើក Word/Excel ឡើងវិញ → រក <strong>"Khmer Luna"</strong> ក្នុង Home ribbon</li>
+            <li>ទាញយក <code>install-mac.sh</code></li>
+            <li>បើក Terminal</li>
+            <li>ចូលទៅ Downloads folder: <code>cd ~/Downloads</code></li>
+            <li>ដំណើរការ: <code>bash install-mac.sh</code></li>
+            <li>បិតនិងបើក Office ឡើងវិញ</li>
           </ol>
         </div>
       </div>
 
       <div class="note">
-        <strong>សម្រាប់ Mac:</strong> Mac users can use the web demo directly in browser and copy/paste results into Office apps.
+        <strong>បញ្ជាក់:</strong> Add-in នេះដំណើរការទាំង Windows និង Mac។ សម្រាប់ Mac ប្រសិនបើ installer មិនដំណើរការ អ្នកអាចប្រើ web demo ដោយផ្ទាល់។
       </div>
 
       <div class="section">

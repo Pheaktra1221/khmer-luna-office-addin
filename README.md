@@ -8,28 +8,38 @@ Convert Gregorian dates to Khmer lunar calendar (Chhankiteak) and insert into Wo
 
 ## 📥 Installation (Free)
 
-### Windows (Office 2021 / 365)
+### Windows
 
-**Option 1: One-click installer (Recommended)**
+**Option 1: Batch installer (Easy - Double-click)**
 
-1. Download: [install-direct-registry.ps1](https://raw.githubusercontent.com/Pheaktra1221/khmer-luna-office-addin/main/scripts/install-direct-registry.ps1)
-2. Right-click → **Run with PowerShell**
-3. Close and reopen Microsoft Office
-4. Find "Khmer Luna" in Home ribbon or Insert → Add-ins → My Add-ins
+Download: [install-windows.bat](https://raw.githubusercontent.com/Pheaktra1221/khmer-luna-office-addin/main/scripts/install-windows.bat)
 
-**Option 2: PowerShell command**
+Right-click → **Run as administrator** → Follow prompts
 
-Open PowerShell as Administrator and run:
+**Option 2: PowerShell installer**
+
+Download: [install-direct-registry.ps1](https://raw.githubusercontent.com/Pheaktra1221/khmer-luna-office-addin/main/scripts/install-direct-registry.ps1)
+
+Right-click → **Run with PowerShell**
+
+**Option 3: One-line command**
+
+Open PowerShell as Administrator:
 ```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; irm https://raw.githubusercontent.com/Pheaktra1221/khmer-luna-office-addin/main/scripts/install-direct-registry.ps1 | iex
 ```
 
-### Mac (Office 2021 / 365)
+### Mac
 
-Use the web version directly:
-👉 [khmer-luna-office-addin.onrender.com/taskpane/taskpane.html](https://khmer-luna-office-addin.onrender.com/taskpane/taskpane.html)
+Download: [install-mac.sh](https://raw.githubusercontent.com/Pheaktra1221/khmer-luna-office-addin/main/scripts/install-mac.sh)
 
-Select date → Copy → Paste into Office
+Open Terminal and run:
+```bash
+cd ~/Downloads
+bash install-mac.sh
+```
+
+**Alternative:** Use web version at [khmer-luna-office-addin.onrender.com/taskpane/taskpane.html](https://khmer-luna-office-addin.onrender.com/taskpane/taskpane.html)
 
 ---
 
