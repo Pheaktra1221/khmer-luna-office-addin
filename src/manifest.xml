@@ -11,11 +11,11 @@
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Khmer Luna Date"/>
   <Description DefaultValue="Convert and insert Khmer lunar (Chhankiteak) dates in Excel, Word, and PowerPoint. Works with Office 2021 and other non-Microsoft 365 installs on Mac and Windows."/>
-  <IconUrl DefaultValue="https://localhost:3000/assets/icon-32.png"/>
-  <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-80.png"/>
-  <SupportUrl DefaultValue="https://localhost:3000/taskpane/taskpane.html"/>
+  <IconUrl DefaultValue="https://khmer-luna-office-addin.onrender.com/assets/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://khmer-luna-office-addin.onrender.com/assets/icon-80.png"/>
+  <SupportUrl DefaultValue="https://khmer-luna-office-addin.onrender.com/taskpane/taskpane.html"/>
   <AppDomains>
-    <AppDomain>https://localhost:3000</AppDomain>
+    <AppDomain>https://khmer-luna-office-addin.onrender.com</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Workbook"/>
@@ -23,7 +23,7 @@
     <Host Name="Presentation"/>
   </Hosts>
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://localhost:3000/taskpane/taskpane.html"/>
+    <SourceLocation DefaultValue="https://khmer-luna-office-addin.onrender.com/taskpane/taskpane.html"/>
   </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
   <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
@@ -145,14 +145,14 @@
     </Hosts>
     <Resources>
       <bt:Images>
-        <bt:Image id="Icon.16" DefaultValue="https://localhost:3000/assets/icon-16.png"/>
-        <bt:Image id="Icon.32" DefaultValue="https://localhost:3000/assets/icon-32.png"/>
-        <bt:Image id="Icon.80" DefaultValue="https://localhost:3000/assets/icon-80.png"/>
+        <bt:Image id="Icon.16" DefaultValue="https://khmer-luna-office-addin.onrender.com/assets/icon-16.png"/>
+        <bt:Image id="Icon.32" DefaultValue="https://khmer-luna-office-addin.onrender.com/assets/icon-32.png"/>
+        <bt:Image id="Icon.80" DefaultValue="https://khmer-luna-office-addin.onrender.com/assets/icon-80.png"/>
       </bt:Images>
       <bt:Urls>
-        <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://localhost:3000/taskpane/taskpane.html"/>
-        <bt:Url id="Commands.Url" DefaultValue="https://localhost:3000/commands/commands.html"/>
-        <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:3000/taskpane/taskpane.html"/>
+        <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://khmer-luna-office-addin.onrender.com/taskpane/taskpane.html"/>
+        <bt:Url id="Commands.Url" DefaultValue="https://khmer-luna-office-addin.onrender.com/commands/commands.html"/>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://khmer-luna-office-addin.onrender.com/taskpane/taskpane.html"/>
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="GetStarted.Title" DefaultValue="Khmer Luna Date"/>
