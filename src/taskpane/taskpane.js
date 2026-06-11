@@ -5,216 +5,211 @@ const SOLAR_FORMAT = "ថ្ងៃទីds ខែM ឆ្នាំc";
 const LABEL_STORAGE_KEY = "khmerLunaCustomLabel";
 const FORMAT_STORAGE_KEY = "khmerLunaFormat";
 
+const KH_MONTHS = ["មករា","កុម្ភៈ","មីនា","មេសា","ឧសភា","មិថុនា",
+                   "កក្កដា","សីហា","កញ្ញា","តុលា","វិច្ឆិកា","ធ្នូ"];
+
 let officeHost = "";
 let activeText = "";
 let currentDate = new Date();
+let calYear, calMonth;
+let selectedFormat = "1";
 
 Office.onReady((info) => {
   officeHost = info.host || "";
+  const saved = localStorage.getItem(FORMAT_STORAGE_KEY);
+  if (saved) selectedFormat = saved;
+  const savedLabel = localStorage.getItem(LABEL_STORAGE_KEY);
+  if (savedLabel) document.getElementById("custom-label").value = savedLabel;
+
   bindUi();
-  loadPreferences();
-  setDefaultDate(new Date());
-  setStatus(getHostLabel());
+  const today = new Date();
+  calYear = today.getFullYear();
+  calMonth = today.getMonth();
+  renderCalendar();
+  selectDate(today);
 });
 
 function bindUi() {
-  document.getElementById("today-btn").addEventListener("click", () => setDefaultDate(new Date()));
-  document.getElementById("read-selection-btn").addEventListener("click", readSelection);
+  document.getElementById("prev-month").addEventListener("click", () => { shiftMonth(-1); });
+  document.getElementById("next-month").addEventListener("click", () => { shiftMonth(1); });
   document.getElementById("insert-btn").addEventListener("click", () => insertText(activeText));
   document.getElementById("copy-btn").addEventListener("click", copyActiveText);
-  document.getElementById("gregorian-date").addEventListener("change", onDateChanged);
-  document.getElementById("custom-label").addEventListener("input", onPreferencesChanged);
-
-  document.querySelectorAll('input[name="format"]').forEach((input) => {
-    input.addEventListener("change", onPreferencesChanged);
+  document.getElementById("read-selection-btn").addEventListener("click", readSelection);
+  document.getElementById("custom-label").addEventListener("input", () => {
+    localStorage.setItem(LABEL_STORAGE_KEY, document.getElementById("custom-label").value.trim());
+    refreshPreview();
   });
+
+  document.querySelectorAll(".pill").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".pill").forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      selectedFormat = btn.dataset.fmt;
+      localStorage.setItem(FORMAT_STORAGE_KEY, selectedFormat);
+      document.getElementById("label-row").classList.toggle("hidden", selectedFormat !== "4");
+      refreshPreview();
+    });
+  });
+
+  // restore saved format pill
+  document.querySelectorAll(".pill").forEach(p => {
+    p.classList.toggle("active", p.dataset.fmt === selectedFormat);
+  });
+  document.getElementById("label-row").classList.toggle("hidden", selectedFormat !== "4");
 }
 
-function loadPreferences() {
-  const savedLabel = localStorage.getItem(LABEL_STORAGE_KEY);
-  if (savedLabel) {
-    document.getElementById("custom-label").value = savedLabel;
+function shiftMonth(delta) {
+  calMonth += delta;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  if (calMonth < 0)  { calMonth = 11; calYear--; }
+  renderCalendar();
+}
+
+function renderCalendar() {
+  const label = `${KH_MONTHS[calMonth]} ${calYear}`;
+  document.getElementById("cal-month-label").textContent = label;
+
+  const grid = document.getElementById("cal-grid");
+  grid.innerHTML = "";
+
+  const firstDay = new Date(calYear, calMonth, 1).getDay(); // 0=Sun
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const today = new Date();
+
+  // empty cells before first day
+  for (let i = 0; i < firstDay; i++) {
+    const empty = document.createElement("div");
+    empty.className = "cal-day empty";
+    grid.appendChild(empty);
   }
 
-  const savedFormat = localStorage.getItem(FORMAT_STORAGE_KEY);
-  if (savedFormat) {
-    const input = document.querySelector(`input[name="format"][value="${savedFormat}"]`);
-    if (input) {
-      input.checked = true;
-    }
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date = new Date(calYear, calMonth, d);
+    const cell = document.createElement("div");
+    cell.className = "cal-day";
+    if (date.getDay() === 0) cell.classList.add("sunday");
+    if (date.getDay() === 6) cell.classList.add("saturday");
+
+    const isToday = d === today.getDate() && calMonth === today.getMonth() && calYear === today.getFullYear();
+    if (isToday) cell.classList.add("today");
+
+    const isSel = currentDate && d === currentDate.getDate() &&
+                  calMonth === currentDate.getMonth() && calYear === currentDate.getFullYear();
+    if (isSel) cell.classList.add("selected");
+
+    // Gregorian number
+    const num = document.createElement("span");
+    num.className = "greg-num";
+    num.textContent = d;
+
+    // Khmer lunar mini
+    const luni = document.createElement("span");
+    luni.className = "lunar-mini";
+    try {
+      const kh = momentkh.fromDate(date);
+      // show lunar day number only
+      luni.textContent = momentkh.format(kh, "d N");
+    } catch(_) { luni.textContent = ""; }
+
+    cell.appendChild(num);
+    cell.appendChild(luni);
+    cell.addEventListener("click", () => selectDate(date));
+    grid.appendChild(cell);
   }
 }
 
-function onPreferencesChanged() {
-  const label = document.getElementById("custom-label").value.trim();
-  localStorage.setItem(LABEL_STORAGE_KEY, label);
-  localStorage.setItem(FORMAT_STORAGE_KEY, getSelectedFormat());
-  refreshPreview();
-}
-
-function onDateChanged() {
-  const value = document.getElementById("gregorian-date").value;
-  if (!value) {
-    return;
-  }
-  const parts = value.split("-").map(Number);
-  currentDate = new Date(parts[0], parts[1] - 1, parts[2]);
-  refreshPreview();
-}
-
-function setDefaultDate(date) {
-  document.getElementById("gregorian-date").value = formatInputDate(date);
+function selectDate(date) {
   currentDate = date;
+  // re-render to update selection highlight
+  if (date.getMonth() !== calMonth || date.getFullYear() !== calYear) {
+    calMonth = date.getMonth();
+    calYear = date.getFullYear();
+  }
+  renderCalendar();
+  updateDateDisplay(date);
   refreshPreview();
 }
 
-function getSelectedFormat() {
-  const selected = document.querySelector('input[name="format"]:checked');
-  return selected ? selected.value : "1";
-}
-
-function getCustomLabel() {
-  return document.getElementById("custom-label").value.trim();
-}
-
-function formatLunar(khmer) {
-  return momentkh.format(khmer, LUNAR_FORMAT);
-}
-
-function formatSolar(khmer) {
-  return momentkh.format(khmer, SOLAR_FORMAT);
-}
-
-function formatWithLabel(khmer) {
-  const label = getCustomLabel();
-  const solar = formatSolar(khmer);
-  return label ? `${label} ${solar}` : solar;
-}
-
-function buildFormattedText(khmer, formatOption) {
-  const lunar = formatLunar(khmer);
-  const labeledSolar = formatWithLabel(khmer);
-  const solarOnly = formatSolar(khmer);
-
-  switch (formatOption) {
-    case "1":
-      return lunar;
-    case "2":
-      return labeledSolar;
-    case "3":
-      return `${lunar}\r\n${labeledSolar}`;
-    case "4":
-      return solarOnly;
-    default:
-      return lunar;
-  }
+function updateDateDisplay(date) {
+  const kh = momentkh.fromDate(date);
+  document.getElementById("kd-lunar").textContent = momentkh.format(kh, LUNAR_FORMAT);
+  document.getElementById("kd-solar").textContent = momentkh.format(kh, SOLAR_FORMAT);
 }
 
 function refreshPreview() {
-  const khmer = momentkh.fromDate(currentDate);
-  activeText = buildFormattedText(khmer, getSelectedFormat());
+  if (!currentDate) return;
+  const kh = momentkh.fromDate(currentDate);
+  activeText = buildFormattedText(kh, selectedFormat);
   document.getElementById("preview").textContent = activeText.replace(/\r\n/g, "\n");
+}
+
+function buildFormattedText(kh, fmt) {
+  const lunar = momentkh.format(kh, LUNAR_FORMAT);
+  const solar = momentkh.format(kh, SOLAR_FORMAT);
+  const label = document.getElementById("custom-label").value.trim();
+  const labeled = label ? `${label} ${solar}` : solar;
+
+  switch (fmt) {
+    case "1": return lunar;
+    case "2": return solar;
+    case "3": return `${lunar}\r\n${labeled}`;
+    case "4": return labeled;
+    default:  return lunar;
+  }
 }
 
 function readSelection() {
   Office.context.document.getSelectedDataAsync(Office.CoercionType.Text, (result) => {
     if (result.status !== Office.AsyncResultStatus.Succeeded) {
-      setStatus("មិនអាចអាន cell ដែលជ្រើសបានទេ", true);
-      return;
+      setStatus("មិនអាចអាន cell បានទេ", true); return;
     }
-
     const raw = (result.value || "").trim();
-    if (!raw) {
-      setStatus("សូមជ្រើស cell ដែលមានថ្ងៃជាមុន", true);
-      return;
-    }
-
+    if (!raw) { setStatus("សូមជ្រើស cell ដែលមានថ្ងៃ", true); return; }
     const parsed = parseDateValue(raw);
-    if (!parsed) {
-      setStatus("cell នេះមិនមែនជាថ្ងៃទេ", true);
-      return;
-    }
-
-    setDefaultDate(parsed);
-    setStatus("បានបំលែងថ្ងៃពី cell ហើយ", false, true);
+    if (!parsed) { setStatus("cell នេះមិនមែនជាថ្ងៃទេ", true); return; }
+    selectDate(parsed);
+    setStatus("បានអានថ្ងៃពី cell ហើយ", false, true);
   });
 }
 
 function insertText(text) {
-  if (!text) {
-    setStatus("សូមជ្រើសថ្ងៃមុន", true);
-    return;
-  }
-
+  if (!text) { setStatus("សូមជ្រើសថ្ងៃមុន", true); return; }
   Office.context.document.setSelectedDataAsync(text, { coercionType: Office.CoercionType.Text }, (result) => {
     if (result.status === Office.AsyncResultStatus.Succeeded) {
       setStatus("បានបញ្ចូលហើយ", false, true);
-      return;
+    } else {
+      setStatus("បញ្ចូលមិនបាន — ចុច cell/cursor មុន", true);
     }
-    setStatus("បញ្ចូលមិនបាន — ចុច cell/ទីតាំង cursor មុន", true);
   });
 }
 
 async function copyActiveText() {
-  if (!activeText) {
-    setStatus("សូមជ្រើសថ្ងៃមុន", true);
-    return;
-  }
-
+  if (!activeText) { setStatus("សូមជ្រើសថ្ងៃមុន", true); return; }
   try {
     await navigator.clipboard.writeText(activeText.replace(/\r\n/g, "\n"));
     setStatus("Copy ហើយ", false, true);
-  } catch (_error) {
-    setStatus("Copy មិនបាន", true);
-  }
+  } catch (_) { setStatus("Copy មិនបាន", true); }
 }
 
 function parseDateValue(value) {
   const direct = new Date(value);
-  if (!Number.isNaN(direct.getTime())) {
-    return direct;
+  if (!Number.isNaN(direct.getTime())) return direct;
+  const serial = Number(value);
+  if (!Number.isNaN(serial) && serial > 20000 && serial < 80000) {
+    return new Date(Date.UTC(1899, 11, 30 + serial));
   }
-
-  const excelSerial = Number(value);
-  if (!Number.isNaN(excelSerial) && excelSerial > 20000 && excelSerial < 80000) {
-    return new Date(Date.UTC(1899, 11, 30 + excelSerial));
-  }
-
   const match = value.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
   if (match) {
     const year = Number(match[3].length === 2 ? `20${match[3]}` : match[3]);
-    const month = Number(match[2]);
-    const day = Number(match[1]);
-    const parsed = new Date(year, month - 1, day);
+    const parsed = new Date(year, Number(match[2]) - 1, Number(match[1]));
     return Number.isNaN(parsed.getTime()) ? null : parsed;
   }
-
   return null;
 }
 
-function formatInputDate(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
-
-function getHostLabel() {
-  switch (officeHost) {
-    case Office.HostType.Excel:
-      return "Excel — រួចរាល់";
-    case Office.HostType.Word:
-      return "Word — រួចរាល់";
-    case Office.HostType.PowerPoint:
-      return "PowerPoint — រួចរាល់";
-    default:
-      return "រួចរាល់";
-  }
-}
-
-function setStatus(message, isError, isSuccess) {
-  const status = document.getElementById("status");
-  status.textContent = message;
-  status.classList.toggle("error", Boolean(isError));
-  status.classList.toggle("success", Boolean(isSuccess));
+function setStatus(msg, isError, isSuccess) {
+  const el = document.getElementById("status");
+  el.textContent = msg;
+  el.classList.toggle("error", Boolean(isError));
+  el.classList.toggle("success", Boolean(isSuccess));
 }

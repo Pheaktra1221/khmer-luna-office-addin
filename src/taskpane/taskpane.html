@@ -11,61 +11,58 @@
   <body>
     <header class="header">
       <h1>ថ្ងៃចន្ទគតិខ្មែរ</h1>
-      <p class="subtitle">Khmer Luna Date for Office</p>
     </header>
 
     <main>
-      <section class="card">
-        <h2>ជ្រើសរើសថ្ងៃ</h2>
-        <label for="gregorian-date">ថ្ងៃសុរិយគតិ (Gregorian)</label>
-        <input id="gregorian-date" type="date" />
-        <button id="today-btn" type="button" class="secondary">ប្រើថ្ងៃនេះ</button>
-        <button id="read-selection-btn" type="button" class="secondary">អានពី cell ដែលជ្រើស</button>
-      </section>
+      <!-- Calendar -->
+      <div class="cal-card">
+        <div class="cal-nav">
+          <button id="prev-month" class="nav-btn" aria-label="ខែមុន">&#8249;</button>
+          <span id="cal-month-label" class="cal-month-label"></span>
+          <button id="next-month" class="nav-btn" aria-label="ខែបន្ទាប់">&#8250;</button>
+        </div>
+        <div class="cal-weekdays">
+          <span>អា</span><span>ច</span><span>អ</span><span>ព</span>
+          <span>ព្រ</span><span>សុ</span><span>ស</span>
+        </div>
+        <div id="cal-grid" class="cal-grid"></div>
+      </div>
 
-      <section class="card">
-        <h2>ពាក្យដើម (Option 2 &amp; 3)</h2>
-        <label for="custom-label">ផ្លូវមាស ឬពាក្យផ្សេង (អាចប្តូរបាន)</label>
-        <input id="custom-label" type="text" value="ផ្លូវមាស" maxlength="80" />
-        <p class="hint">ឧ. ផ្លូវមាស, ការិយាល័យ, រដ្ឋបាល...</p>
-      </section>
+      <!-- Khmer date result -->
+      <div class="result-card">
+        <div id="khmer-date-display" class="khmer-date-display">
+          <span class="kd-lunar" id="kd-lunar"></span>
+          <span class="kd-solar" id="kd-solar"></span>
+        </div>
+      </div>
 
-      <section class="card">
-        <h2>រូបរាង (Format)</h2>
-        <fieldset class="format-options">
-          <legend class="sr-only">Choose output format</legend>
-          <label class="format-option">
-            <input type="radio" name="format" value="1" checked />
-            <span class="format-title">Option 1 — ចន្ទគតិ</span>
-            <span class="format-sample">ថ្ងៃចន្ទ ១២ រោច ខែបុស្ស ឆ្នាំម្សាញ់ សប្តស័ក ព.ស.២៥៧០</span>
-          </label>
-          <label class="format-option">
-            <input type="radio" name="format" value="2" />
-            <span class="format-title">Option 2 — ពាក្យដើម + សុរិយគតិ</span>
-            <span class="format-sample">ផ្លូវមាស ថ្ងៃទី១២ ខែមករា ឆ្នាំ២០២៦</span>
-          </label>
-          <label class="format-option">
-            <input type="radio" name="format" value="3" />
-            <span class="format-title">Option 3 — ទាំងពីរ (២ជួរ)</span>
-            <span class="format-sample">ចន្ទគតិ + ផ្លូវមាស សុរិយគតិ</span>
-          </label>
-          <label class="format-option">
-            <input type="radio" name="format" value="4" />
-            <span class="format-title">Option 4 — សុរិយគតិ</span>
-            <span class="format-sample">ថ្ងៃទី១២ ខែមករា ឆ្នាំ២០២៦</span>
-          </label>
-        </fieldset>
-      </section>
+      <!-- Format -->
+      <div class="format-card">
+        <div class="format-row">
+          <label class="fmt-label">Format</label>
+          <div class="fmt-pills">
+            <button class="pill active" data-fmt="1">ចន្ទគតិ</button>
+            <button class="pill" data-fmt="2">សុរិយគតិ</button>
+            <button class="pill" data-fmt="3">ទាំងពីរ</button>
+            <button class="pill" data-fmt="4">ពាក្យដើម</button>
+          </div>
+        </div>
+        <div id="label-row" class="label-row hidden">
+          <input id="custom-label" type="text" value="ផ្លូវមាស" maxlength="80" placeholder="ពាក្យដើម..." />
+        </div>
+      </div>
 
-      <section class="card preview-card">
-        <h2>លទ្ធផល</h2>
+      <!-- Preview -->
+      <div class="preview-card">
         <pre id="preview" class="preview"></pre>
-      </section>
+      </div>
 
-      <section class="actions">
-        <button id="insert-btn" type="button" class="primary">បញ្ចូល (Insert)</button>
-        <button id="copy-btn" type="button" class="secondary">Copy</button>
-      </section>
+      <!-- Actions -->
+      <div class="actions">
+        <button id="insert-btn" class="btn-primary">បញ្ចូល (Insert)</button>
+        <button id="copy-btn" class="btn-secondary">Copy</button>
+        <button id="read-selection-btn" class="btn-secondary">អានពី Cell</button>
+      </div>
 
       <p id="status" class="status" role="status" aria-live="polite"></p>
     </main>
