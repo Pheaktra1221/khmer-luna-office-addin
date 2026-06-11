@@ -14,57 +14,62 @@
     </header>
 
     <main>
-      <!-- Calendar -->
-      <div class="cal-card">
-        <div class="cal-nav">
-          <button id="prev-month" class="nav-btn" aria-label="ខែមុន">&#8249;</button>
-          <span id="cal-month-label" class="cal-month-label"></span>
-          <button id="next-month" class="nav-btn" aria-label="ខែបន្ទាប់">&#8250;</button>
-        </div>
-        <div class="cal-weekdays">
-          <span>អា</span><span>ច</span><span>អ</span><span>ព</span>
-          <span>ព្រ</span><span>សុ</span><span>ស</span>
-        </div>
-        <div id="cal-grid" class="cal-grid"></div>
-      </div>
+      <div class="layout">
 
-      <!-- Khmer date result -->
-      <div class="result-card">
-        <div id="khmer-date-display" class="khmer-date-display">
-          <span class="kd-lunar" id="kd-lunar"></span>
-          <span class="kd-solar" id="kd-solar"></span>
-        </div>
-      </div>
-
-      <!-- Format -->
-      <div class="format-card">
-        <div class="format-row">
-          <label class="fmt-label">Format</label>
-          <div class="fmt-pills">
-            <button class="pill active" data-fmt="1">ចន្ទគតិ</button>
-            <button class="pill" data-fmt="2">សុរិយគតិ</button>
-            <button class="pill" data-fmt="3">ទាំងពីរ</button>
-            <button class="pill" data-fmt="4">ពាក្យដើម</button>
+        <!-- LEFT: Calendar -->
+        <div class="col-left">
+          <div class="cal-card">
+            <div class="cal-nav">
+              <button id="prev-month" class="nav-btn" aria-label="ខែមុន">&#8249;</button>
+              <span id="cal-month-label" class="cal-month-label"></span>
+              <button id="next-month" class="nav-btn" aria-label="ខែបន្ទាប់">&#8250;</button>
+            </div>
+            <div class="cal-weekdays">
+              <span>អា</span><span>ច</span><span>អ</span><span>ព</span>
+              <span>ព្រ</span><span>សុ</span><span>ស</span>
+            </div>
+            <div id="cal-grid" class="cal-grid"></div>
           </div>
         </div>
-        <div id="label-row" class="label-row hidden">
-          <input id="custom-label" type="text" value="ផ្លូវមាស" maxlength="80" placeholder="ពាក្យដើម..." />
+
+        <!-- RIGHT: Options -->
+        <div class="col-right">
+
+          <!-- Selected date -->
+          <div class="result-card">
+            <span class="kd-lunar" id="kd-lunar"></span>
+            <span class="kd-solar" id="kd-solar"></span>
+          </div>
+
+          <!-- Format pills -->
+          <div class="fmt-section">
+            <div class="fmt-label">Format</div>
+            <div class="fmt-pills">
+              <button class="pill active" data-fmt="1">ចន្ទ</button>
+              <button class="pill" data-fmt="2">សុរិយ</button>
+              <button class="pill" data-fmt="3">២ជួរ</button>
+              <button class="pill" data-fmt="4">ពាក្យ</button>
+            </div>
+            <div id="label-row" class="label-row hidden">
+              <input id="custom-label" type="text" value="ផ្លូវមាស" maxlength="80" placeholder="ពាក្យដើម..." />
+            </div>
+          </div>
+
+          <!-- Preview -->
+          <div class="preview-card">
+            <pre id="preview" class="preview"></pre>
+          </div>
+
+          <!-- Actions -->
+          <div class="actions">
+            <button id="insert-btn" class="btn-primary">បញ្ចូល</button>
+            <button id="copy-btn" class="btn-secondary">Copy</button>
+            <button id="read-selection-btn" class="btn-secondary">Cell</button>
+          </div>
+
+          <p id="status" class="status" role="status" aria-live="polite"></p>
         </div>
       </div>
-
-      <!-- Preview -->
-      <div class="preview-card">
-        <pre id="preview" class="preview"></pre>
-      </div>
-
-      <!-- Actions -->
-      <div class="actions">
-        <button id="insert-btn" class="btn-primary">បញ្ចូល (Insert)</button>
-        <button id="copy-btn" class="btn-secondary">Copy</button>
-        <button id="read-selection-btn" class="btn-secondary">អានពី Cell</button>
-      </div>
-
-      <p id="status" class="status" role="status" aria-live="polite"></p>
 
       <!-- Setup Guide -->
       <details class="setup-guide">
@@ -83,7 +88,7 @@
             <li>ចុច <em>Insert → Add-ins → My Add-ins</em></li>
             <li>ជ្រើស <em>Upload My Add-in</em> ហើយ browse ទៅ <code>manifest.xml</code></li>
           </ol>
-          <p class="setup-note">manifest.xml URL: <code>https://khmer-luna-office-addin.onrender.com/manifest.xml</code></p>
+          <p class="setup-note">manifest.xml: <code>https://khmer-luna-office-addin.onrender.com/manifest.xml</code></p>
         </div>
       </details>
     </main>
