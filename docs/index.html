@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khmer Luna Date - Office Add-in</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Khmer OS Siemreap", "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    h1 {
+      color: #7c2d12;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      color: #6b7280;
+      font-size: 1rem;
+      margin-bottom: 30px;
+    }
+    .btn {
+      display: inline-block;
+      background: #b45309;
+      color: white;
+      padding: 14px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      margin: 10px 10px 10px 0;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #92400e; }
+    .btn-secondary {
+      background: #6366f1;
+    }
+    .btn-secondary:hover { background: #4f46e5; }
+    .section {
+      margin: 30px 0;
+    }
+    .section h2 {
+      font-size: 1.3rem;
+      color: #7c2d12;
+      margin-bottom: 12px;
+    }
+    .steps {
+      background: #f9fafb;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 4px solid #b45309;
+    }
+    .steps ol {
+      padding-left: 20px;
+    }
+    .steps li {
+      margin: 8px 0;
+    }
+    code {
+      background: #e5e7eb;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    .note {
+      background: #fef3c7;
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #f59e0b;
+      margin: 20px 0;
+    }
+    .demo-btn {
+      background: #10b981;
+    }
+    .demo-btn:hover {
+      background: #059669;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>🌙 ថ្ងៃចន្ទគតិខ្មែរ</h1>
+      <p class="subtitle">Khmer Luna Date for Microsoft Office 2021</p>
+      
+      <p>បំលែងថ្ងៃសុរិយគតិទៅជាថ្ងៃចន្ទគតិខ្មែរ និងបញ្ចូលក្នុង Word, Excel, PowerPoint</p>
+      
+      <div style="margin: 30px 0;">
+        <a href="https://khmer-luna-office-addin.onrender.com/taskpane/taskpane.html" class="btn demo-btn" target="_blank">សាកល្បងប្រើ (Web Demo)</a>
+        <a href="https://raw.githubusercontent.com/Pheaktra1221/khmer-luna-office-addin/main/scripts/install-direct-registry.ps1" class="btn" download>ទាញយក Installer</a>
+        <a href="https://github.com/Pheaktra1221/khmer-luna-office-addin" class="btn btn-secondary" target="_blank">GitHub</a>
+      </div>
+
+      <div class="section">
+        <h2>📦 របៀបដំឡើង (Installation)</h2>
+        <div class="steps">
+          <ol>
+            <li>ចុចប៊ូតុង <strong>"ទាញយក Installer"</strong> ខាងលើ</li>
+            <li>រកឯកសារ <code>install-direct-registry.ps1</code> ដែលទាញយក</li>
+            <li>Right-click → <strong>Run with PowerShell</strong></li>
+            <li>បិត Microsoft Office ទាំងស្រុង (Word, Excel, PowerPoint)</li>
+            <li>បើក Word/Excel ឡើងវិញ → រក <strong>"Khmer Luna"</strong> ក្នុង Home ribbon</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>សម្រាប់ Mac:</strong> Mac users can use the web demo directly in browser and copy/paste results into Office apps.
+      </div>
+
+      <div class="section">
+        <h2>✨ មុខងារ (Features)</h2>
+        <ul style="padding-left: 20px;">
+          <li>ប្រតិទិនតាមខែ ជាមួយថ្ងៃចន្ទគតិនៅក្នុងគ្រាប់កោសិកានីមួយៗ</li>
+          <li>បំលែងស្វ័យប្រវត្តិពីសុរិយគតិទៅចន្ទគតិ</li>
+          <li>រូបរាងជាច្រើន: ចន្ទគតិ, សុរិយគតិ, ទាំងពីរ, ពាក្យដើម</li>
+          <li>អានថ្ងៃពី Excel cell ដោយផ្ទាល់</li>
+          <li>បញ្ចូលចូល document ឬ copy clipboard</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>🛠️ តម្រូវការប្រព័ន្ធ (Requirements)</h2>
+        <ul style="padding-left: 20px;">
+          <li>Microsoft Office 2021 (Word, Excel, PowerPoint)</li>
+          <li>Windows 10/11</li>
+          <li>PowerShell execution</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>📞 ជំនួយ (Support)</h2>
+        <p>សម្រាប់បញ្ហាបច្ចេកទេស សូមបើក issue នៅ <a href="https://github.com/Pheaktra1221/khmer-luna-office-addin/issues" target="_blank">GitHub Issues</a></p>
+      </div>
+
+      <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; text-align: center; color: #6b7280; font-size: 0.9rem;">
+        <p>Made with ❤️ for Khmer Community | Free & Open Source</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
