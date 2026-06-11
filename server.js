@@ -12,6 +12,9 @@ function createApp() {
   app.get("/manifest.xml", (_req, res) => {
     res.sendFile(path.join(__dirname, "manifest.xml"));
   });
+  app.get("/", (_req, res) => {
+    res.redirect("/taskpane/taskpane.html");
+  });
   app.get("/health", (_req, res) => {
     res.json({ ok: true });
   });
