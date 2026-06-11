@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Khmer+OS+Siemreap&display=swap');
+
 :root {
   --bg: #f5f0e8;
   --card: #ffffff;
@@ -16,7 +18,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: "Segoe UI", "Khmer OS", "Noto Sans Khmer", sans-serif;
+  font-family: "Khmer OS Siemreap", "Khmer OS", "Noto Sans Khmer", "Segoe UI", sans-serif;
   background: var(--bg);
   color: var(--text);
   font-size: 13px;
@@ -175,7 +177,7 @@ main { padding: 10px 10px 20px; display: flex; flex-direction: column; gap: 8px;
 }
 .preview {
   white-space: pre-wrap;
-  font-family: "Khmer OS", "Noto Sans Khmer", "Segoe UI", sans-serif;
+  font-family: "Khmer OS Siemreap", "Khmer OS", "Noto Sans Khmer", sans-serif;
   font-size: 0.88rem;
   color: var(--khmer);
   line-height: 1.7;
@@ -205,3 +207,35 @@ main { padding: 10px 10px 20px; display: flex; flex-direction: column; gap: 8px;
 }
 .status.error { color: #b91c1c; }
 .status.success { color: #047857; }
+
+/* Setup guide */
+.setup-guide {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.setup-guide summary {
+  padding: 10px 12px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  list-style: none;
+  user-select: none;
+}
+.setup-guide summary::-webkit-details-marker { display: none; }
+.setup-guide summary::before { content: "▶ "; font-size: 0.65rem; }
+.setup-guide[open] summary::before { content: "▼ "; }
+.setup-content {
+  padding: 0 12px 12px;
+  font-size: 0.78rem;
+  line-height: 1.8;
+  color: var(--text);
+}
+.setup-content ol { padding-left: 18px; margin: 4px 0 10px; }
+.setup-content li { margin-bottom: 2px; }
+.setup-content em { font-style: normal; background: #f3f4f6; padding: 1px 4px; border-radius: 4px; }
+.setup-content code { font-size: 0.72rem; background: #f3f4f6; padding: 1px 4px; border-radius: 4px; word-break: break-all; }
+.setup-os { font-size: 0.8rem; margin-top: 8px; }
+.setup-note { margin-top: 8px; color: var(--muted); }
