@@ -1,0 +1,26 @@
+{
+  "name": "khmer-luna-office-addin",
+  "version": "1.0.0",
+  "description": "Khmer lunar (Chhankiteak) date Office add-in for Excel, Word, and PowerPoint — Office 2021 and non-365 on Mac and Windows",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/copy-momentkh.js && node scripts/build-manifest.js",
+    "start": "npm run build && node server.js",
+    "start:production": "node server.js",
+    "postinstall": "node scripts/copy-momentkh.js",
+    "validate": "npm run build && office-addin-manifest validate manifest.xml",
+    "sideload:windows": "powershell -ExecutionPolicy Bypass -File scripts/sideload-windows.ps1",
+    "sideload:mac": "bash scripts/sideload-mac.sh"
+  },
+  "dependencies": {
+    "@thyrith/momentkh": "^3.0.3",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "office-addin-dev-certs": "^1.13.5",
+    "office-addin-manifest": "^1.13.5"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

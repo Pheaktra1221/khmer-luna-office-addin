@@ -1,0 +1,194 @@
+:root {
+  color-scheme: light;
+  --bg: #f7f4ef;
+  --card: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --accent: #b45309;
+  --accent-dark: #92400e;
+  --border: #e5e7eb;
+  --khmer: #7c2d12;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Khmer OS", "Noto Sans Khmer", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.header {
+  padding: 16px 16px 8px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, #fff7ed 0%, var(--bg) 100%);
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--khmer);
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+main {
+  padding: 12px 16px 24px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.card h2 {
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+input[type="date"],
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font: inherit;
+}
+
+button {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font: inherit;
+  cursor: pointer;
+  background: var(--accent);
+  color: #fff;
+  margin-right: 6px;
+  margin-bottom: 6px;
+}
+
+button:hover {
+  background: var(--accent-dark);
+}
+
+button.secondary {
+  background: #e5e7eb;
+  color: var(--text);
+}
+
+button.secondary:hover {
+  background: #d1d5db;
+}
+
+button.primary {
+  width: 100%;
+  margin-right: 0;
+}
+
+.actions {
+  display: grid;
+  gap: 8px;
+}
+
+.format-options {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.format-option {
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.format-option:has(input:checked) {
+  border-color: #fdba74;
+  background: #fff7ed;
+}
+
+.format-option input {
+  margin-right: 8px;
+}
+
+.format-title {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.format-sample {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--khmer);
+  line-height: 1.5;
+}
+
+.preview-card {
+  border-color: #fed7aa;
+  background: #fffaf5;
+}
+
+.preview {
+  margin: 0;
+  white-space: pre-wrap;
+  font-family: "Khmer OS", "Noto Sans Khmer", "Segoe UI", sans-serif;
+  font-size: 0.95rem;
+  color: var(--khmer);
+  line-height: 1.7;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.status {
+  min-height: 1.25rem;
+  margin: 10px 0 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.status.error {
+  color: #b91c1c;
+}
+
+.status.success {
+  color: #047857;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
