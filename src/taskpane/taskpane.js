@@ -40,6 +40,23 @@ function bindUi() {
     refreshPreview();
   });
 
+  // Clear label button
+  document.getElementById("clear-label-btn").addEventListener("click", () => {
+    document.getElementById("custom-label").value = "";
+    localStorage.setItem(LABEL_STORAGE_KEY, "");
+    refreshPreview();
+    document.getElementById("custom-label").focus();
+  });
+
+  // Preset label chips
+  document.querySelectorAll(".preset").forEach(chip => {
+    chip.addEventListener("click", () => {
+      document.getElementById("custom-label").value = chip.dataset.val;
+      localStorage.setItem(LABEL_STORAGE_KEY, chip.dataset.val);
+      refreshPreview();
+    });
+  });
+
   document.querySelectorAll(".pill").forEach((btn) => {
     btn.addEventListener("click", () => {
       document.querySelectorAll(".pill").forEach(p => p.classList.remove("active"));

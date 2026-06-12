@@ -13,43 +13,60 @@
   --today-bg: #fde68a;
   --selected-bg: #b45309;
   --selected-text: #fff;
+  --radius: clamp(6px, 1.5vw, 12px);
+  --gap: clamp(4px, 1vw, 8px);
+  --fs-base: clamp(10px, 1.8vw, 14px);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: var(--fs-base); }
 
 body {
   font-family: "Khmer OS Siemreap", "Khmer OS", "Noto Sans Khmer", "Segoe UI", sans-serif;
   background: var(--bg);
   color: var(--text);
-  font-size: 12px;
   line-height: 1.4;
+  min-height: 100vh;
 }
 
-/* Header */
+/* ── Header ── */
 .header {
   background: var(--khmer);
   color: #fff;
-  padding: 7px 12px;
+  padding: clamp(6px, 1.5vh, 12px) 12px;
   text-align: center;
 }
-.header h1 { font-size: 0.9rem; font-weight: 700; }
+.header h1 { font-size: clamp(0.85rem, 2.5vw, 1.1rem); font-weight: 700; }
 
-main { padding: 8px; display: flex; flex-direction: column; gap: 6px; }
+/* ── Main layout ── */
+main {
+  padding: var(--gap);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
 
-/* Two-column layout */
+/* Two-column: side-by-side on wide, stacked on narrow */
 .layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 6px;
+  gap: var(--gap);
   align-items: start;
 }
 
-/* ── LEFT: Calendar ── */
-.col-left { min-width: 0; }
+/* Stack vertically on very narrow screens (< 320px) */
+@media (max-width: 319px) {
+  .layout { grid-template-columns: 1fr; }
+}
 
+.col-left, .col-right { min-width: 0; }
+.col-right { display: flex; flex-direction: column; gap: var(--gap); }
+
+/* ── Calendar ── */
 .cal-card {
   background: var(--card);
-  border-radius: 10px;
+  border-radius: var(--radius);
   border: 1px solid var(--border);
   overflow: hidden;
 }
@@ -59,12 +76,20 @@ main { padding: 8px; display: flex; flex-direction: column; gap: 6px; }
   align-items: center;
   justify-content: space-between;
   background: var(--khmer);
-  padding: 5px 6px;
+  padding: clamp(4px, 1vw, 8px) clamp(4px, 1.5vw, 10px);
 }
-.cal-month-label { color: #fff; font-weight: 700; font-size: 0.7rem; }
+.cal-month-label {
+  color: #fff;
+  font-weight: 700;
+  font-size: clamp(0.6rem, 1.8vw, 0.85rem);
+  text-align: center;
+  flex: 1;
+}
 .nav-btn {
   background: none; border: none; color: #fff;
-  font-size: 1.1rem; cursor: pointer; padding: 0 4px; border-radius: 4px; line-height: 1;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  cursor: pointer; padding: 0 clamp(2px, 0.8vw, 6px);
+  border-radius: 4px; line-height: 1; flex-shrink: 0;
 }
 .nav-btn:hover { background: rgba(255,255,255,0.2); }
 
@@ -76,8 +101,8 @@ main { padding: 8px; display: flex; flex-direction: column; gap: 6px; }
 }
 .cal-weekdays span {
   text-align: center;
-  padding: 3px 0;
-  font-size: 0.6rem;
+  padding: clamp(2px, 0.5vh, 5px) 0;
+  font-size: clamp(0.5rem, 1.4vw, 0.7rem);
   color: var(--muted);
   font-weight: 600;
 }
@@ -87,8 +112,8 @@ main { padding: 8px; display: flex; flex-direction: column; gap: 6px; }
 .cal-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  padding: 2px;
-  gap: 1px;
+  padding: clamp(1px, 0.5vw, 3px);
+  gap: clamp(1px, 0.3vw, 2px);
 }
 
 .cal-day {
@@ -97,105 +122,130 @@ main { padding: 8px; display: flex; flex-direction: column; gap: 6px; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 5px;
+  border-radius: clamp(3px, 0.8vw, 6px);
   cursor: pointer;
   user-select: none;
   transition: background 0.1s;
 }
-.cal-day:hover { background: #fef3c7; }
+.cal-day:hover  { background: #fef3c7; }
 .cal-day.empty  { cursor: default; }
 .cal-day.today  { background: var(--today-bg); font-weight: 700; }
 .cal-day.selected { background: var(--selected-bg) !important; color: var(--selected-text); }
 .cal-day.selected .lunar-mini { color: rgba(255,255,255,0.75); }
-.cal-day.sunday  .greg-num { color: #dc2626; }
+.cal-day.sunday .greg-num   { color: #dc2626; }
 .cal-day.saturday .greg-num { color: #2563eb; }
 
-.greg-num   { font-size: 0.68rem; font-weight: 600; line-height: 1; }
-.lunar-mini { font-size: 0.48rem; color: var(--khmer); line-height: 1.1; margin-top: 1px; }
+.greg-num   { font-size: clamp(0.55rem, 1.5vw, 0.8rem); font-weight: 600; line-height: 1; }
+.lunar-mini { font-size: clamp(0.38rem, 1vw, 0.55rem); color: var(--khmer); line-height: 1.1; margin-top: 1px; }
 
-/* ── RIGHT: Options ── */
-.col-right {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-/* Selected date display */
+/* ── Result card ── */
 .result-card {
   background: var(--card);
   border: 1px solid #fed7aa;
-  border-radius: 10px;
-  padding: 6px 8px;
+  border-radius: var(--radius);
+  padding: clamp(5px, 1.2vw, 10px);
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
-.kd-lunar { font-size: 0.72rem; color: var(--khmer); font-weight: 600; line-height: 1.5; }
-.kd-solar { font-size: 0.65rem; color: var(--muted); }
+.kd-lunar { font-size: clamp(0.6rem, 1.8vw, 0.85rem); color: var(--khmer); font-weight: 600; line-height: 1.5; }
+.kd-solar { font-size: clamp(0.55rem, 1.5vw, 0.75rem); color: var(--muted); }
 
-/* Format section */
+/* ── Format section ── */
 .fmt-section {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 6px 8px;
+  border-radius: var(--radius);
+  padding: clamp(5px, 1.2vw, 10px);
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: clamp(4px, 0.8vw, 6px);
 }
-.fmt-label { font-size: 0.65rem; color: var(--muted); font-weight: 600; }
-.fmt-pills { display: flex; gap: 3px; flex-wrap: wrap; }
+.fmt-label { font-size: clamp(0.55rem, 1.4vw, 0.72rem); color: var(--muted); font-weight: 600; }
+.fmt-pills { display: flex; gap: clamp(2px, 0.5vw, 4px); flex-wrap: wrap; }
 .pill {
   background: #f3f4f6;
   border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 2px 7px;
-  font-size: 0.65rem;
+  border-radius: 20px;
+  padding: clamp(2px, 0.4vh, 4px) clamp(5px, 1.2vw, 10px);
+  font-size: clamp(0.55rem, 1.4vw, 0.72rem);
   cursor: pointer;
   color: var(--text);
   font-family: inherit;
   transition: all 0.1s;
+  white-space: nowrap;
 }
 .pill:hover  { background: var(--accent-light); border-color: #fbbf24; }
 .pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-.label-row input {
-  width: 100%;
-  padding: 4px 7px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
+/* ── Custom label ── */
+.label-row { display: flex; flex-direction: column; gap: 4px; }
+.label-hint { font-size: clamp(0.5rem, 1.3vw, 0.65rem); color: var(--muted); }
+
+.label-input-wrap { display: flex; gap: 3px; align-items: center; }
+.label-input-wrap input {
+  flex: 1;
+  padding: clamp(3px, 0.6vh, 6px) clamp(4px, 0.8vw, 8px);
+  border: 1.5px solid var(--accent);
+  border-radius: clamp(4px, 0.8vw, 7px);
   font: inherit;
-  font-size: 0.72rem;
+  font-size: clamp(0.6rem, 1.5vw, 0.78rem);
+  background: #fff8f0;
+  outline: none;
 }
+.label-input-wrap input:focus { border-color: var(--accent-dark); box-shadow: 0 0 0 2px #fde68a; }
+.clear-btn {
+  background: #e5e7eb; border: none; border-radius: 50%;
+  width: clamp(16px, 3vw, 22px); height: clamp(16px, 3vw, 22px);
+  font-size: clamp(0.5rem, 1.2vw, 0.65rem);
+  cursor: pointer; color: var(--muted); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.clear-btn:hover { background: #d1d5db; color: var(--text); }
+
+.label-presets { display: flex; gap: 3px; flex-wrap: wrap; }
+.preset {
+  background: #f9f0e3;
+  border: 1px solid #fed7aa;
+  border-radius: 10px;
+  padding: clamp(1px, 0.3vh, 3px) clamp(4px, 0.8vw, 8px);
+  font-size: clamp(0.5rem, 1.2vw, 0.65rem);
+  cursor: pointer;
+  color: var(--khmer);
+  font-family: inherit;
+  transition: all 0.1s;
+}
+.preset:hover { background: var(--accent-light); border-color: var(--accent); }
+
 .hidden { display: none !important; }
 
-/* Preview */
+/* ── Preview ── */
 .preview-card {
   background: #fffaf5;
   border: 1px solid #fed7aa;
-  border-radius: 10px;
-  padding: 6px 8px;
-  min-height: 32px;
+  border-radius: var(--radius);
+  padding: clamp(5px, 1.2vw, 10px);
+  min-height: clamp(28px, 6vh, 44px);
 }
 .preview {
   white-space: pre-wrap;
   font-family: "Khmer OS Siemreap", "Khmer OS", "Noto Sans Khmer", sans-serif;
-  font-size: 0.68rem;
+  font-size: clamp(0.6rem, 1.6vw, 0.82rem);
   color: var(--khmer);
   line-height: 1.6;
 }
 
-/* Actions */
-.actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; }
+/* ── Actions ── */
+.actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: clamp(3px, 0.6vw, 5px); }
 .btn-primary, .btn-secondary {
   border: none;
-  border-radius: 6px;
-  padding: 6px 4px;
+  border-radius: clamp(4px, 0.8vw, 7px);
+  padding: clamp(5px, 1.2vh, 9px) clamp(3px, 0.6vw, 6px);
   font: inherit;
-  font-size: 0.65rem;
+  font-size: clamp(0.55rem, 1.4vw, 0.72rem);
   cursor: pointer;
   text-align: center;
+  white-space: nowrap;
 }
 .btn-primary  { background: var(--accent); color: #fff; font-weight: 600; }
 .btn-primary:hover  { background: var(--accent-dark); }
@@ -203,42 +253,42 @@ main { padding: 8px; display: flex; flex-direction: column; gap: 6px; }
 .btn-secondary:hover { background: #d1d5db; }
 
 .status {
-  min-height: 0.9rem;
-  font-size: 0.62rem;
+  min-height: clamp(0.8rem, 2vh, 1rem);
+  font-size: clamp(0.5rem, 1.3vw, 0.68rem);
   color: var(--muted);
   text-align: center;
 }
 .status.error   { color: #b91c1c; }
 .status.success { color: #047857; }
 
-/* Setup guide */
+/* ── Setup guide ── */
 .setup-guide {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius);
   overflow: hidden;
 }
 .setup-guide summary {
-  padding: 7px 10px;
+  padding: clamp(5px, 1.2vh, 9px) clamp(6px, 1.5vw, 12px);
   cursor: pointer;
-  font-size: 0.72rem;
+  font-size: clamp(0.6rem, 1.5vw, 0.78rem);
   font-weight: 600;
   color: var(--accent);
   list-style: none;
   user-select: none;
 }
 .setup-guide summary::-webkit-details-marker { display: none; }
-.setup-guide summary::before { content: "▶ "; font-size: 0.6rem; }
+.setup-guide summary::before { content: "▶ "; font-size: 0.6em; }
 .setup-guide[open] summary::before { content: "▼ "; }
 .setup-content {
-  padding: 0 10px 10px;
-  font-size: 0.72rem;
+  padding: 0 clamp(6px, 1.5vw, 12px) clamp(6px, 1.5vw, 12px);
+  font-size: clamp(0.6rem, 1.5vw, 0.75rem);
   line-height: 1.7;
   color: var(--text);
 }
 .setup-content ol { padding-left: 16px; margin: 4px 0 8px; }
 .setup-content li { margin-bottom: 2px; }
 .setup-content em   { font-style: normal; background: #f3f4f6; padding: 1px 3px; border-radius: 3px; }
-.setup-content code { font-size: 0.65rem; background: #f3f4f6; padding: 1px 3px; border-radius: 3px; word-break: break-all; }
-.setup-os   { font-size: 0.75rem; margin-top: 6px; }
+.setup-content code { font-size: 0.85em; background: #f3f4f6; padding: 1px 3px; border-radius: 3px; word-break: break-all; }
+.setup-os   { font-weight: 600; margin-top: 6px; }
 .setup-note { margin-top: 6px; color: var(--muted); }

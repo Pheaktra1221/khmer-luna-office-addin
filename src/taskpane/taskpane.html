@@ -41,7 +41,7 @@
             <span class="kd-solar" id="kd-solar"></span>
           </div>
 
-          <!-- Format pills -->
+          <!-- Format -->
           <div class="fmt-section">
             <div class="fmt-label">Format</div>
             <div class="fmt-pills">
@@ -50,8 +50,21 @@
               <button class="pill" data-fmt="3">២ជួរ</button>
               <button class="pill" data-fmt="4">ពាក្យ</button>
             </div>
+
+            <!-- Custom label — always visible when format 4 selected -->
             <div id="label-row" class="label-row hidden">
-              <input id="custom-label" type="text" value="ផ្លូវមាស" maxlength="80" placeholder="ពាក្យដើម..." />
+              <label class="label-hint">ពាក្យដើម (អាចផ្លាស់ប្ដូរបាន)</label>
+              <div class="label-input-wrap">
+                <input id="custom-label" type="text" value="ផ្លូវមាស"
+                       maxlength="80" placeholder="វាយពាក្យនៅទីនេះ..." />
+                <button id="clear-label-btn" class="clear-btn" title="Clear">✕</button>
+              </div>
+              <div class="label-presets">
+                <span class="preset" data-val="ផ្លូវមាស">ផ្លូវមាស</span>
+                <span class="preset" data-val="ការិយាល័យ">ការិយាល័យ</span>
+                <span class="preset" data-val="រដ្ឋបាល">រដ្ឋបាល</span>
+                <span class="preset" data-val="អនុស្សរណៈ">អនុស្សរណៈ</span>
+              </div>
             </div>
           </div>
 
