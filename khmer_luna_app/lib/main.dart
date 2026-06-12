@@ -1,12 +1,21 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+// Web platform registration
+import 'package:webview_flutter_web/webview_flutter_web.dart';
 
 const String _appUrl =
     'https://khmer-luna-office-addin.onrender.com/taskpane/taskpane.html';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  // Register web platform
+  if (kIsWeb) {
+    WebViewPlatform.instance = WebWebViewPlatform();
+  }
   runApp(const KhmerLunaApp());
 }
 
@@ -33,8 +42,33 @@ class KhmerCalendarPage extends StatefulWidget {
 }
 
 class _KhmerCalendarPageState extends State<KhmerCalendarPage> {
+  late final WebViewController _controller;
   bool _isLoading = true;
   bool _hasError = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    late final PlatformWebViewControllerCreationParams params;
+    if (!kIsWeb && WebViewPlatform.instance is WebKitWebViewPlatform) {
+      params = WebKitWebViewControllerCreationParams(
+        allowsInlineMediaPlayback: true,
+      );
+    } else {
+      params = const PlatformWebViewControllerCreationParams();
+    }
+
+    _controller = WebViewController.fromPlatformCreationParams(params)
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(NavigationDelegate(
+        onPageFinished: (_) =>
+            setState(() { _isLoading = false; _hasError = false; }),
+        onWebResourceError: (_) =>
+            setState(() { _isLoading = false; _hasError = true; }),
+      ))
+      ..loadRequest(Uri.parse(_appUrl));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,46 +77,11 @@ class _KhmerCalendarPageState extends State<KhmerCalendarPage> {
       body: SafeArea(
         child: Stack(
           children: [
-            InAppWebView(
-              initialUrlRequest: URLRequest(
-                url: WebUri(_appUrl),
-              ),
-              initialSettings: InAppWebViewSettings(
-                javaScriptEnabled: true,
-                domStorageEnabled: true,
-                supportZoom: false,
-                cacheEnabled: true,
-                // Cache for offline use after first load
-                cacheMode: CacheMode.LOAD_CACHE_ELSE_NETWORK,
-              ),
-              onWebViewCreated: (controller) {
-                // Bridge: JS calls this to copy text natively
-                controller.addJavaScriptHandler(
-                  handlerName: 'copyText',
-                  callback: (args) async {
-                    if (args.isNotEmpty) {
-                      await Clipboard.setData(
-                          ClipboardData(text: args[0].toString()));
-                    }
-                  },
-                );
-              },
-              onLoadStop: (_, __) {
-                setState(() { _isLoading = false; _hasError = false; });
-              },
-              onReceivedError: (_, __, ___) {
-                setState(() { _isLoading = false; _hasError = true; });
-              },
-              onConsoleMessage: (_, msg) => debugPrint('JS: ${msg.message}'),
-            ),
-
-            // Loading spinner
+            WebViewWidget(controller: _controller),
             if (_isLoading)
               const Center(
                 child: CircularProgressIndicator(color: Color(0xFFB45309)),
               ),
-
-            // Offline error
             if (_hasError)
               Center(
                 child: Column(
@@ -96,6 +95,7 @@ class _KhmerCalendarPageState extends State<KhmerCalendarPage> {
                     ElevatedButton(
                       onPressed: () {
                         setState(() { _isLoading = true; _hasError = false; });
+                        _controller.loadRequest(Uri.parse(_appUrl));
                       },
                       child: const Text('Retry'),
                     ),
