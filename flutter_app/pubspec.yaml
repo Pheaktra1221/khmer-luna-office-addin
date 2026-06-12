@@ -1,0 +1,27 @@
+name: khmer_luna_date
+description: Khmer Lunar Calendar - ថ្ងៃចន្ទគតិខ្មែរ
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_inappwebview: ^6.0.0
+  share_plus: ^7.2.1
+  path_provider: ^2.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/web/
+    - assets/web/taskpane.html
+    - assets/web/taskpane.css
+    - assets/web/taskpane.js
+    - assets/web/momentkh.js
