@@ -1,0 +1,27 @@
+{
+  "name": "khmer-luna-date",
+  "version": "1.0.0",
+  "description": "ថ្ងៃចន្ទគតិខ្មែរ - Khmer Lunar Calendar",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac"
+  },
+  "build": {
+    "appId": "com.khmerluna.date",
+    "productName": "Khmer Luna Date",
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "icon.icns"
+    }
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.0.0"
+  }
+}

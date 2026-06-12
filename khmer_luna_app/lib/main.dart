@@ -1,21 +1,15 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
-// Web platform registration
-import 'package:webview_flutter_web/webview_flutter_web.dart';
 
 const String _appUrl =
     'https://khmer-luna-office-addin.onrender.com/taskpane/taskpane.html';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  // Register web platform
-  if (kIsWeb) {
-    WebViewPlatform.instance = WebWebViewPlatform();
-  }
   runApp(const KhmerLunaApp());
 }
 
@@ -50,8 +44,9 @@ class _KhmerCalendarPageState extends State<KhmerCalendarPage> {
   void initState() {
     super.initState();
 
+    // Platform-specific params
     late final PlatformWebViewControllerCreationParams params;
-    if (!kIsWeb && WebViewPlatform.instance is WebKitWebViewPlatform) {
+    if (Platform.isIOS || Platform.isMacOS) {
       params = WebKitWebViewControllerCreationParams(
         allowsInlineMediaPlayback: true,
       );
@@ -68,6 +63,13 @@ class _KhmerCalendarPageState extends State<KhmerCalendarPage> {
             setState(() { _isLoading = false; _hasError = true; }),
       ))
       ..loadRequest(Uri.parse(_appUrl));
+
+    // Android-specific settings
+    if (Platform.isAndroid) {
+      final androidController =
+          _controller.platform as AndroidWebViewController;
+      androidController.setMediaPlaybackRequiresUserGesture(false);
+    }
   }
 
   @override
@@ -78,10 +80,12 @@ class _KhmerCalendarPageState extends State<KhmerCalendarPage> {
         child: Stack(
           children: [
             WebViewWidget(controller: _controller),
+
             if (_isLoading)
               const Center(
                 child: CircularProgressIndicator(color: Color(0xFFB45309)),
               ),
+
             if (_hasError)
               Center(
                 child: Column(
